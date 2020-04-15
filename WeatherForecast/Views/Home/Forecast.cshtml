@@ -1,0 +1,124 @@
+﻿
+@{
+    ViewBag.Title = "Forecast";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Search City and Get Weather 5 Days/3 hours Forecast</h1>
+
+<div>
+    <strong>City Name  :</strong><input id="txtCity" type="text" />
+    <br />
+    <br />
+    <button id="btnSubmit2">Get Weather Forecast</button>
+</div>
+
+
+<div>
+    <h2>Weather Forecast</h2>
+        <div>
+                <strong>Date Time: </strong>
+                <label id="lblDte"></label>
+        </div>
+        <div>
+            Weather Symbol Icon <img id="imgWeatherIconUrl" src="" title="Weather Icon" />
+        </div>
+        <div>
+                <strong>City: </strong>
+                <span id="lblCity"></span>  ,
+                <span id="lblCountry"></span>
+        </div>
+        <div>         
+                <strong>Latitude: </strong>
+                <label id="lblLat"></label><br />
+                <strong>Longitude: </strong>
+                <label id="lblLon"></label>
+            </>
+        </div>
+        <div>
+                <strong>Description:</strong>
+                <label id="lblDescription"></label><br />
+                <strong>Humidity:</strong>
+                <label id="lblHumidity"></label>
+        </div>
+        <div>          
+                Temperature (Feels Like)<label id="lblTempFeelsLike"></label><br />
+                Temperature <label id="lblTemp"></label><br />
+                Temperature (Min)<label id="lblTempMin"></label><br />
+                Temperature (Max)<label id="lblTempMax"></label><br />
+        </div>
+</div>
+<div>
+    <span id="showWeatherForcast"></span>
+    
+</div>
+
+<script>
+
+    //Maybe try creating a different controller?
+    $("#btnSubmit2").click(function () {
+        var key = "5989c360a72a7faf8a5d317a708cd92f";
+        var city = "London"; // My test case was "London"
+        var url = "https://api.openweathermap.org/data/2.5/forecast";
+        //var cityname = $("#txtCity").val();
+        //if (cityname.length > 0) {
+            $.ajax({
+                //url: "http://localhost:62710/Home/ForecastDetail?City=" + cityname, //localhost = current machine
+                //type: "POST",
+                //success: function (rsltval) {
+                //    var data = JSON.parse(rsltval);
+                //    var wf = "";
+                //    console.log(data);
+                    
+                //    $("#lblCity").html(data.City);
+                //    $("#lblCountry").text(data.Country);
+                //    $("#lblLat").text(data.Lat);
+                //    $("#lblLon").text(data.Lon);
+                    //$.each(data.list, function (index, val) {
+                    //    $("#lblDte").html(val.data.DayTime);
+                    //    $("#lblDescription").text(data.Description);
+                    //    $("#lblHumidity").text(data.Humidity);
+                    //    $("#lblTempFeelsLike").text(data.TempFeelsLike);
+                    //    $("#lblTemp").text(data.Temp);
+                    //    $("#lblTempMax").text(data.TempMax);
+                    //    $("#lblTempMin").text(data.TempMin);
+                    //    $("#imgWeatherIconUrl").attr("src", "http://openweathermap.org/img/w/" + data.WeatherIcon + ".png");
+                    //});
+                url: url, //API Call
+                dataType: "json",
+                type: "GET",
+                data: {
+                    q: city,
+                    appid: key,
+                    units: "metric",
+                    cnt: "10"
+                },
+                success: function (data) {
+                    console.log('Received data:', data) // For testing
+                    var wf = "";
+                    wf += "<h2>" + data.city.name + "</h2>"; // City (displays once)
+                    $.each(data.list, function (index, val) {
+                        wf += "<p>" // Opening paragraph tag
+                        wf += "<b>Day " + index + "</b>: " // Day
+                        wf += val.main.temp + "&degC" // Temperature
+                        wf += "<span> | " + val.dt_txt + "</span>"; // Date Text
+                        wf += "<span> | " + val.weather[0].description + "</span>"; // Description
+                        wf += "<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>" // Icon
+                        wf += "</p>" // Closing paragraph tag
+                    });
+                    $("#showWeatherForcast").html(wf);
+                    
+                    //data - response from server
+                },
+                error: function () {
+
+                }
+            });
+        //}
+        //else {
+        //    alert("City Not Found");
+        //}
+    });
+
+</script>
+

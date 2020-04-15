@@ -5,6 +5,7 @@ using System.Web;
   
 namespace WeatherForecast.Models  
 {  
+    //Class used to display the result
     public class ResultViewModel  
     {  
         public string City { get; set; }  
@@ -20,6 +21,7 @@ namespace WeatherForecast.Models
         public string WeatherIcon { get; set; }  
     }  
   
+    //Class used to store incoming data
     public class Coord  
     {  
         public double lon { get; set; }  
@@ -79,5 +81,6 @@ namespace WeatherForecast.Models
         public int id { get; set; }  
         public string name { get; set; }  
         public int cod { get; set; }  
-    }  
+    }
+
 }  

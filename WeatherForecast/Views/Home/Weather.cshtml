@@ -1,5 +1,6 @@
 ﻿@{
     ViewBag.Title = "Weather";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h1>Search City and Get Weather Forecast</h1>
@@ -61,34 +62,32 @@
     $("#btnSubmit").click(function () {
 
         var cityname = $("#txtCity").val();
-        if (cityname.length > 0)
-        {
-        $.ajax({
-            url: "http://localhost:62710/Home/WeatherDetail?City="+cityname, //localhost = current machine
-            type: "POST",
-            success: function (rsltval) {
-                var data =JSON.parse(rsltval);
-                console.log(data);
-                $("#lblCity").html(data.City);
-                $("#lblCountry").text(data.Country);
-                $("#lblLat").text(data.Lat);
-                $("#lblLon").text(data.Lon);
-                $("#lblDescription").text(data.Description);
-                $("#lblHumidity").text(data.Humidity);
-                $("#lblTempFeelsLike").text(data.TempFeelsLike);
-                $("#lblTemp").text(data.Temp);
-                $("#lblTempMax").text(data.TempMax);
-                $("#lblTempMin").text(data.TempMin);
-                $("#imgWeatherIconUrl").attr("src", "http://openweathermap.org/img/w/" + data.WeatherIcon + ".png");
-                //data - response from server
-            },
-            error: function () {
+        if (cityname.length > 0) {
+            $.ajax({
+                url: "http://localhost:62710/Home/WeatherDetail?City=" + cityname, //localhost = current machine
+                type: "POST",
+                success: function (rsltval) {
+                    var data = JSON.parse(rsltval);
+                    console.log(data);
+                    $("#lblCity").html(data.City);
+                    $("#lblCountry").text(data.Country);
+                    $("#lblLat").text(data.Lat);
+                    $("#lblLon").text(data.Lon);
+                    $("#lblDescription").text(data.Description);
+                    $("#lblHumidity").text(data.Humidity);
+                    $("#lblTempFeelsLike").text(data.TempFeelsLike);
+                    $("#lblTemp").text(data.Temp);
+                    $("#lblTempMax").text(data.TempMax);
+                    $("#lblTempMin").text(data.TempMin);
+                    $("#imgWeatherIconUrl").attr("src", "http://openweathermap.org/img/w/" + data.WeatherIcon + ".png");
+                    //data - response from server
+                },
+                error: function () {
 
-            }
-        });
+                }
+            });
         }
-        else
-        {
+        else {
             alert("City Not Found");
         }
     });
